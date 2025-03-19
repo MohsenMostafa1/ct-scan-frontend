@@ -25,15 +25,27 @@ document.getElementById('uploadForm').addEventListener('submit', async function(
         const data = await response.json();
 
         // Display the results
-        document.getElementById('diagnosis').textContent = data.diagnosis;
-        document.getElementById('accuracy').textContent = `Confidence: ${data.accuracy}`;
-        document.getElementById('explanation').textContent = data.explanation;
+        const diagnosisElement = document.getElementById('diagnosis');
+        const accuracyElement = document.getElementById('accuracy');
+        const explanationElement = document.getElementById('explanation');
+        const medicalInfoList = document.getElementById('medicalInfo');
+
+        // Clear previous results
+        diagnosisElement.textContent = '';
+        accuracyElement.textContent = '';
+        explanationElement.textContent = '';
+        medicalInfoList.innerHTML = '';
+
+        // Display the top diagnosis
+        if (data.top_diagnosis) {
+            diagnosisElement.textContent = data.top_diagnosis.disease;
+            accuracyElement.textContent = `Confidence: ${data.top_diagnosis.accuracy}`;
+            explanationElement.textContent = data.top_diagnosis.explanation;
+        }
 
         // Display PubMed information
-        const medicalInfoList = document.getElementById('medicalInfo');
-        medicalInfoList.innerHTML = '';
-        if (data.medical_info && data.medical_info.PubMed) {
-            data.medical_info.PubMed.forEach(info => {
+        if (data.top_diagnosis.medical_info && data.top_diagnosis.medical_info.PubMed) {
+            data.top_diagnosis.medical_info.PubMed.forEach(info => {
                 const li = document.createElement('li');
                 const a = document.createElement('a');
                 a.href = info.link;
