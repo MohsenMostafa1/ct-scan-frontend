@@ -25,25 +25,30 @@ document.getElementById('uploadForm').addEventListener('submit', async function(
 
         const data = await response.json();
 
-        // Display the results
+        // Display the results on the web page
         document.getElementById('diagnosis').textContent = data.diagnosis;
-        document.getElementById('accuracy').textContent = data.accuracy;
+        document.getElementById('accuracy').textContent = `Confidence: ${data.accuracy}`;
         document.getElementById('explanation').textContent = data.explanation;
 
         // Display PubMed information
         const medicalInfoList = document.getElementById('medicalInfo');
-        medicalInfoList.innerHTML = '';
-        data.medical_info.PubMed.forEach(info => {
-            const li = document.createElement('li');
-            const a = document.createElement('a');
-            a.href = info.link;
-            a.textContent = info.title;
-            li.appendChild(a);
-            const p = document.createElement('p');
-            p.textContent = info.abstract;
-            li.appendChild(p);
-            medicalInfoList.appendChild(li);
-        });
+        medicalInfoList.innerHTML = ''; // Clear previous results
+        if (data.medical_info && data.medical_info.PubMed) {
+            data.medical_info.PubMed.forEach(info => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.href = info.link;
+                a.textContent = info.title;
+                a.target = "_blank"; // Open link in a new tab
+                li.appendChild(a);
+                const p = document.createElement('p');
+                p.textContent = info.abstract;
+                li.appendChild(p);
+                medicalInfoList.appendChild(li);
+            });
+        } else {
+            medicalInfoList.innerHTML = '<li>No medical information found.</li>';
+        }
 
         // Show the results section
         document.getElementById('results').classList.remove('hidden');
