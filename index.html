@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CT Scan Radiology</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>CT Scan Radiology Analysis</h1>
+        <form id="uploadForm">
+            <input type="file" id="ctScan" name="file" accept=".png,.jpg,.jpeg" required>
+            <button type="submit">Analyze</button>
+        </form>
+        <div id="results" class="hidden">
+            <h2>Results</h2>
+            <p><strong>Diagnosis:</strong> <span id="diagnosis"></span></p>
+            <p><strong>Accuracy:</strong> <span id="accuracy"></span></p>
+            <p><strong>Explanation:</strong> <span id="explanation"></span></p>
+            <h3>Medical Information from PubMed</h3>
+            <ul id="medicalInfo"></ul>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
